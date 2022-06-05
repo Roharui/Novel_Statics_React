@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+
 import Charts from './chart/Charts';
-import { AnalyzeNovelDto } from './chart/information';
+import { AnalyzeNovelDto } from './chart/dto/novel-analyze.dto';
 
 function App() {
 

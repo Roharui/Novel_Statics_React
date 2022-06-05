@@ -21,7 +21,7 @@ export class NovelDto {
   }
 }
 
-class NovelInfoDto {
+export class NovelInfoDto {
   id!: number;
 
   view!: number;
@@ -38,16 +38,4 @@ class NovelInfoDto {
 export class SearchResponseDto {
   code!: number;
   err!: string;
-}
-
-export class AnalyzeNovelDto extends NovelDto {
-  info!: NovelInfoDto;
-
-  view_per_good!: number;
-  view_per_book!: number;
-
-  view_per_good_average!: number;
-  view_per_book_average!: number;
-
-  search_response!: SearchResponseDto;
 }
