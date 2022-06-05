@@ -7,7 +7,7 @@ import kakaopage from './img/kakaopage.png';
 import { PlatformType } from './dto/novel.dto';
 import { AnalyzeNovelDto } from './dto/novel-analyze.dto';
 
-import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts';
+import AvgBarChart from './BarCharts';
 
 function typeSrc(type: PlatformType){
   switch(type) {
@@ -37,6 +37,12 @@ function Charts({ result }: {result:AnalyzeNovelDto}) {
     type,
     thumbnail,
     link,
+
+    author,
+    is_end,
+    is_plus,
+    age_limit,
+
     info,
 
     total_novel_count,
@@ -69,15 +75,20 @@ function Charts({ result }: {result:AnalyzeNovelDto}) {
 
   return (
     <div className="chart">
-      <h1>{title}</h1>
-      {
-        thumbnail 
-        ?
-        <img src={thumbnail} alt='썸네일' />
-        :
-        null
-      }
-      <img src={typeSrc(type)} alt='타입' />
+      <a href={link}>
+        <h1>{title}</h1>
+        {
+          thumbnail !== "None"
+          ?
+          <img src={thumbnail} alt='썸네일' />
+          :
+          null
+        }
+        <img src={typeSrc(type)} alt='타입' />
+      </a>
+
+      <br/>
+
       <a href={link}>바로가기</a>
 
       <ul>
@@ -87,72 +98,45 @@ function Charts({ result }: {result:AnalyzeNovelDto}) {
       </ul>
 
       <ul>
+        <li>작가 : {author}</li>
+        {is_end ? <li>[완결]</li> : null}
+        {is_plus ? <li>[유료]</li> : null}
+        {age_limit !== 0 ? <li>[{age_limit}금]</li> : null}
+      </ul>
+
+      <ul>
         <li>분석된 소설 개수 : {total_novel_count}</li>
         <li>분석된 {platform_name} 소설 개수 : {type_novel_count}</li>
       </ul>
 
-      <BarChart width={730} height={250} data={[
-        {
+      <AvgBarChart data={{
         name: "소설 조회수",
         cur: view,
         avg: view_per_novel_count,
         type_avg: view_per_type_novel_count,
-        },
-      ]}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="cur" name="이 작품" fill="#8884d8" />
-        <Bar dataKey="avg" name="평균" fill="#82ca9d" />
-        <Bar dataKey="type_avg" name={platform_name + " 평균"} fill="#8dd1e1" />
-      </BarChart>
-      <BarChart width={730} height={250} data={[{
+        }}
+        platform_name={platform_name} />
+      <AvgBarChart data={{
         name: "소설 추천수",
         cur: good,
         avg: good_per_novel_count,
         type_avg: good_per_type_novel_count,
-      }]}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="cur" name="이 작품" fill="#8884d8" />
-        <Bar dataKey="avg" name="평균" fill="#82ca9d" />
-        <Bar dataKey="type_avg" name={platform_name + " 평균"} fill="#8dd1e1" />
-      </BarChart>
-      <BarChart width={730} height={250} data={[{
+      }}
+        platform_name={platform_name} />
+      <AvgBarChart data={{
         name: "조회수/좋아요(추천)",
         cur: view_per_good,
         avg: view_per_good_average,
         type_avg: view_per_good_platform_average
-      }]}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="cur" name="이 작품" fill="#8884d8" />
-        <Bar dataKey="avg" name="평균" fill="#82ca9d" />
-        <Bar dataKey="type_avg" name={platform_name + " 평균"} fill="#8dd1e1" />
-      </BarChart>
-      <BarChart width={730} height={250} data={[{
+      }}
+        platform_name={platform_name} />
+      <AvgBarChart data={{
         name: "조회수/편수",
         cur: view_per_book,
         avg: view_per_book_average,
         type_avg: view_per_book_platform_average
-      }]}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="cur" name="이 작품" fill="#8884d8" />
-        <Bar dataKey="avg" name="평균" fill="#82ca9d" />
-        <Bar dataKey="type_avg" name={platform_name + " 평균"} fill="#8dd1e1" />
-      </BarChart>
+      }}
+        platform_name={platform_name} />
     </div>
   );
 }

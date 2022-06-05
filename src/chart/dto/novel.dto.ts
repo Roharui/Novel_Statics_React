@@ -16,6 +16,14 @@ export class NovelDto {
 
   link!: string;
 
+  author!: string;
+
+  is_end!: boolean;
+  
+  is_plus!: boolean;
+
+  age_limit!: number;
+
   constructor(partial: Partial<NovelDto>) {
     Object.assign(this, partial);
   }
