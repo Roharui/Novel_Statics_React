@@ -9,25 +9,23 @@ import { AnalyzeNovelDto } from './dto/novel-analyze.dto';
 
 import AvgBarChart from './BarCharts';
 
-function typeSrc(type: PlatformType){
+function platformInfo(type: PlatformType){
   switch(type) {
     case PlatformType.NOVELPIA:
-      return novelpia;
+      return {
+        img: novelpia,
+        name: "노벨피아"
+      };
     case PlatformType.MUNPIA:
-      return munpia;
+      return {
+        img: munpia,
+        name: "문피아"
+      };
     case PlatformType.KAKAOPAGE:
-      return kakaopage;
-  }
-}
-
-function typeName(type: PlatformType){
-  switch(type) {
-    case PlatformType.NOVELPIA:
-      return "노벨피아";
-    case PlatformType.MUNPIA:
-      return "문피아";
-    case PlatformType.KAKAOPAGE:
-      return "카카오페이지";
+      return {
+        img: kakaopage,
+        name: "카카오페이지"
+      };
   }
 }
 
@@ -71,7 +69,10 @@ function Charts({ result }: {result:AnalyzeNovelDto}) {
     book,
   } = info;
 
-  const platform_name = typeName(type)
+  const {
+    img: platform_img,
+    name: platform_name
+  } = platformInfo(type)
 
   return (
     <div className="chart">
@@ -84,12 +85,14 @@ function Charts({ result }: {result:AnalyzeNovelDto}) {
           :
           null
         }
-        <img src={typeSrc(type)} alt='타입' />
+        <img src={platform_img} alt='타입' />
       </a>
 
       <br/>
 
       <a href={link}>바로가기</a>
+
+      {!is_plus ? <h3>무료작품은 평균 통계에 포함되지 않습니다.</h3> : null }
 
       <ul>
         <li>조회수 : {view}</li>
@@ -100,7 +103,7 @@ function Charts({ result }: {result:AnalyzeNovelDto}) {
       <ul>
         <li>작가 : {author}</li>
         {is_end ? <li>[완결]</li> : null}
-        {is_plus ? <li>[유료]</li> : null}
+        <li>[{is_plus ? "유료" : "무료"}]</li>
         {age_limit !== 0 ? <li>[{age_limit}금]</li> : null}
       </ul>
 
