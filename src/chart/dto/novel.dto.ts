@@ -24,6 +24,10 @@ export class NovelDto {
 
   age_limit!: number;
 
+  createdAt!: string;
+
+  updatedAt!: string;
+
   constructor(partial: Partial<NovelDto>) {
     Object.assign(this, partial);
   }
@@ -37,6 +41,10 @@ export class NovelInfoDto {
   good!: number;
 
   book!: number;
+
+  createdAt!: string;
+
+  updatedAt!: string;
 
   constructor(partial: Partial<NovelInfoDto>) {
     Object.assign(this, partial);

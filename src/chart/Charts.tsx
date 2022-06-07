@@ -7,7 +7,9 @@ import kakaopage from './img/kakaopage.png';
 import { PlatformType } from './dto/novel.dto';
 import { AnalyzeNovelDto } from './dto/novel-analyze.dto';
 
-import AvgBarChart from './BarCharts';
+import AvgBarChart from './AvgBarCharts';
+import GrowthLineChart from './LineCharts';
+import GrowthBarChart from './BarCharts';
 
 function platformInfo(type: PlatformType){
   switch(type) {
@@ -29,6 +31,16 @@ function platformInfo(type: PlatformType){
   }
 }
 
+function parseDate(date: string): string {
+  const d = new Date(date);
+  
+  const year = d.getFullYear()
+  const mm = d.getMonth() + 1; // getMonth() is zero-based
+  const dd = d.getDate();
+
+  return `${year}-${mm}-${dd}`;
+}
+
 function Charts({ result }: {result:AnalyzeNovelDto}) {
   const {
     title,
@@ -42,6 +54,17 @@ function Charts({ result }: {result:AnalyzeNovelDto}) {
     age_limit,
 
     info,
+    cur_info,
+
+    growth_view,
+    growth_good,
+  
+    serial_rate,
+
+    latest_growth_view,
+    latest_growth_good,
+  
+    latest_serial_rate,
 
     total_novel_count,
     type_novel_count,
@@ -60,6 +83,8 @@ function Charts({ result }: {result:AnalyzeNovelDto}) {
   
     view_per_good_average,
     view_per_book_average,
+
+    createdAt,
   
   } = result;
 
@@ -67,7 +92,8 @@ function Charts({ result }: {result:AnalyzeNovelDto}) {
     view,
     good,
     book,
-  } = info;
+    createdAt: lastupdateTime
+  } = cur_info;
 
   const {
     img: platform_img,
@@ -98,6 +124,8 @@ function Charts({ result }: {result:AnalyzeNovelDto}) {
         <li>조회수 : {view}</li>
         <li>추천수 : {good}</li>
         <li>편수 : {book}</li>
+        {serial_rate ? <li>연참율 : {serial_rate}</li> : null}
+        {latest_serial_rate ? <li>최신 연참율 : {latest_serial_rate}</li> : null}
       </ul>
 
       <ul>
@@ -110,6 +138,8 @@ function Charts({ result }: {result:AnalyzeNovelDto}) {
       <ul>
         <li>분석된 소설 개수 : {total_novel_count}</li>
         <li>분석된 {platform_name} 소설 개수 : {type_novel_count}</li>
+        <li>분석 시작일 : {parseDate(createdAt)}</li>
+        <li>최신 분석일 : {parseDate(lastupdateTime)}</li>
       </ul>
 
       <AvgBarChart data={{
@@ -140,6 +170,32 @@ function Charts({ result }: {result:AnalyzeNovelDto}) {
         type_avg: view_per_book_platform_average
       }}
         platform_name={platform_name} />
+      
+      <GrowthLineChart data={info} />
+
+      {
+        growth_view && growth_good
+        ?
+        <GrowthBarChart data={{
+          name: "성장률",
+          growth_view,
+          growth_good,
+        }} />
+        :
+        null
+      }
+
+      {
+        latest_growth_view && latest_growth_good
+        ?
+        <GrowthBarChart data={{
+          name: "최신 성장률",
+          growth_view: latest_growth_view,
+          growth_good: latest_growth_good,
+        }} />
+        :
+        null
+      }
     </div>
   );
 }

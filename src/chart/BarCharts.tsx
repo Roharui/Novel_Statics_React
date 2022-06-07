@@ -4,12 +4,11 @@ import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'rec
 
 interface BarChartData {
   name: string;
-  cur: number;
-  avg: number;
-  type_avg: number;
+  growth_view: number;
+  growth_good: number;
 }
 
-function AvgBarChart({ data, platform_name }: {data: BarChartData, platform_name: string}) {
+function GrowthBarChart({ data }: {data: BarChartData }) {
 
   return (
       <BarChart width={730} height={250} data={[data]}>
@@ -18,11 +17,10 @@ function AvgBarChart({ data, platform_name }: {data: BarChartData, platform_name
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="cur" name="이 작품" fill="#8884d8" />
-        <Bar dataKey="avg" name="평균" fill="#82ca9d" />
-        <Bar dataKey="type_avg" name={platform_name + " 평균"} fill="#8dd1e1" />
+        <Bar dataKey="growth_view" name="조회수 성장률" fill="#8884d8" />
+        <Bar dataKey="growth_good" name="추천수 성장률" fill="#82ca9d" />
       </BarChart>
   );
 }
 
-export default AvgBarChart;
+export default GrowthBarChart;

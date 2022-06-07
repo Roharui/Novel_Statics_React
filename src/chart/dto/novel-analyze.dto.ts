@@ -1,7 +1,19 @@
 import { NovelDto, NovelInfoDto, SearchResponseDto } from "./novel.dto";
 
 export class AnalyzeNovelDto extends NovelDto {
-  info!: NovelInfoDto;
+  info!: NovelInfoDto[];
+  
+  cur_info!: NovelInfoDto;
+
+  growth_view!: number;
+  growth_good!: number;
+
+  serial_rate!: number;
+
+  latest_growth_view!: number;
+  latest_growth_good!: number;
+
+  latest_serial_rate!: number;
 
   view_per_good!: number;
   view_per_book!: number;
