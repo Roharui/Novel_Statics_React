@@ -11,7 +11,7 @@ interface BarChartData {
 function GrowthBarChart({ data }: {data: BarChartData }) {
 
   return (
-      <BarChart width={730} height={250} data={[data]}>
+      <BarChart width={400} height={200} data={[data]}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
         <YAxis />

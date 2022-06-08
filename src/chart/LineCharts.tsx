@@ -1,6 +1,7 @@
 import React from 'react';
-import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
 
+import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
+import { tickFormatter } from '../utils/formatter';
 
 interface LineChartData {
   createdAt: string;
@@ -25,12 +26,25 @@ function GrowthLineChart({ data }: {data: LineChartData[] }) {
   })
 
   return (
-    <LineChart width={730} height={250} data={realData}
+    <LineChart width={800} height={200} data={realData}
       margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
-        <YAxis type="number" domain={['auto', 'auto']} yAxisId="left" dataKey="view" />
-        <YAxis type="number" domain={['auto', 'auto']} yAxisId="right" dataKey="good" orientation="right" />
+        <YAxis 
+          type="number" 
+          domain={['auto', 'auto']} 
+          yAxisId="left" 
+          dataKey="view" 
+          tickFormatter={tickFormatter}
+          />
+        <YAxis 
+          type="number" 
+          domain={['auto', 'auto']} 
+          yAxisId="right" 
+          dataKey="good" 
+          orientation="right" 
+          tickFormatter={tickFormatter}
+        />
         <Tooltip />
         <Legend />
         <Line yAxisId="left" type="monotone" dataKey="view" name="조회수" stroke="#8884d8" />

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts';
+import { tickFormatter } from '../utils/formatter';
 
 interface BarChartData {
   name: string;
@@ -12,10 +13,10 @@ interface BarChartData {
 function AvgBarChart({ data, platform_name }: {data: BarChartData, platform_name: string}) {
 
   return (
-      <BarChart width={730} height={250} data={[data]}>
+      <BarChart width={400} height={200} data={[data]}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
-        <YAxis domain={['auto', 'auto']} />
+        <YAxis domain={['auto', 'auto']} tickFormatter={tickFormatter} />
         <Tooltip />
         <Legend />
         <Bar dataKey="cur" name="이 작품" fill="#8884d8" />
